@@ -52,7 +52,7 @@ function checkOperation() {
         }
     };
 }
-//обработчики
+
 let numbers = document.querySelectorAll('button.numbers');
 for (let elem of numbers) {
     elem.addEventListener("click", delNull);
@@ -74,6 +74,13 @@ for (let elem of operations) {
     });
     elem.addEventListener("click", changeSize);
 }
+
+num0.addEventListener("click", delNull);
+num0.addEventListener("click", cleanText);
+num0.addEventListener("click", function() {
+    document.body.children[0].children[0].textContent += 0;
+});
+num0.addEventListener("click", changeSize);
 
 function canceling() {
     document.body.children[0].children[0].style.cssText="font-size: 96px; top: 21px;"

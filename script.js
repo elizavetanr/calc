@@ -1,3 +1,4 @@
+let display = '0';
 function Calc(operation, a, b) {
     const operations = {
         sum: (a + b),
@@ -18,35 +19,36 @@ function Calc(operation, a, b) {
         return('unknown operation');
     }
 }
-function defaultNull() {
-    document.body.children[0].children[0].textContent = 0;
+function outputDisplay() {
+    document.body.children[0].children[0].textContent = display;
 };
-defaultNull();
+outputDisplay();
 
 function changeSize() {
-    if ((document.body.children[0].children[0].textContent).length > 6) {
+    if (display.length > 6) {
         document.body.children[0].children[0].style.cssText="font-size: 32px; top: 50px;"
     }
-    if ((document.body.children[0].children[0].textContent).length < 7) {
+    if (display.length < 7) {
         document.body.children[0].children[0].style.cssText="font-size: 96px; top: 21px;"
     }
 }
 
 function delNull() {
-    if (document.body.children[0].children[0].textContent === '0') {
-        document.body.children[0].children[0].textContent = '';
+    if (display === '0') {
+        display = '';
+        outputDisplay();
     }
 }
 
 function cleanText () {
-    if (document.body.children[0].children[0].textContent === 'Infinity' || document.body.children[0].children[0].textContent === 'Error' || document.body.children[0].children[0].textContent === 'unknown operation' ) {
-        document.body.children[0].children[0].textContent = '';
+    if (display === 'Infinity' || display === 'Error' || display === 'unknown operation' ) {
+        display = '';
+        outputDisplay();
     }
 }
 
 function checkOperation() {
-    let str = (document.body.children[0].children[0].textContent);
-    for (let char of str) {
+    for (let char of display) {
         if (char === '+' || char === '-' || char === '×' || char === '÷') {
                 equaling();
         }
@@ -58,7 +60,8 @@ for (let elem of numbers) {
     elem.addEventListener("click", delNull);
     elem.addEventListener("click", cleanText);
     elem.addEventListener("click", function() {
-        document.body.children[0].children[0].textContent += elem.textContent;
+        display += elem.textContent;
+        outputDisplay();
     });
     elem.addEventListener("click", changeSize);
 }
@@ -70,7 +73,8 @@ for (let elem of operations) {
     elem.addEventListener("click", cleanText);
     elem.addEventListener("click", checkOperation);
     elem.addEventListener("click", function() {
-        document.body.children[0].children[0].textContent += elem.textContent;
+        display += elem.textContent;
+        outputDisplay();
     });
     elem.addEventListener("click", changeSize);
 }
@@ -78,19 +82,23 @@ for (let elem of operations) {
 num0.addEventListener("click", delNull);
 num0.addEventListener("click", cleanText);
 num0.addEventListener("click", function() {
-    document.body.children[0].children[0].textContent += 0;
+    display += 0;
+    outputDisplay();
 });
 num0.addEventListener("click", changeSize);
 
 function canceling() {
     document.body.children[0].children[0].style.cssText="font-size: 96px; top: 21px;"
-    document.body.children[0].children[0].textContent = '0';
+    display = '0';
+    outputDisplay();
 }
 function cleaning() {
-    if ((document.body.children[0].children[0].textContent).length === 1 || document.body.children[0].children[0].textContent === 'Infinity' || document.body.children[0].children[0].textContent === 'Error' || document.body.children[0].children[0].textContent === 'unknown operation' ) {
-        document.body.children[0].children[0].textContent = '0';
+    if (display.length === 1 || display === 'Infinity' || display === 'Error' || display === 'unknown operation' ) {
+        display = '0';
+        outputDisplay();
     } else {
-        document.body.children[0].children[0].textContent = (document.body.children[0].children[0].textContent).slice(0, -1);
+        display = display.slice(0, -1);
+        outputDisplay();
     }
 }
 cancel.addEventListener("click", canceling);
@@ -100,13 +108,12 @@ clean.addEventListener("click", changeSize);
 function equaling() {
 let separator;
 let operation;
-let str = (document.body.children[0].children[0].textContent);
-for (let char of str) {
+for (let char of display) {
     if (char === '+' || char === '-' || char === '×' || char === '÷') {
         separator = char;
     }
 };
-    let operators = (document.body.children[0].children[0].textContent).split(separator);
+    let operators = display.split(separator);
     a = +(operators[0]);
     b = +(operators[1]);
     switch (separator) {
@@ -124,7 +131,8 @@ for (let char of str) {
             break;
         default:
     }
-    document.body.children[0].children[0].textContent = Calc(operation, a, b);
+    display = Calc(operation, a, b);
+    outputDisplay();
 };
 equal.addEventListener("click", changeSize);
 equal.addEventListener("click", equaling);

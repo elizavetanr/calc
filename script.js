@@ -106,36 +106,47 @@ clean.addEventListener("click", cleaning);
 clean.addEventListener("click", changeSize);
 
 function equaling() {
-let separator;
-let operation;
-for (let char of display) {
-    if (char === '+' || char === '-' || char === '×' || char === '÷') {
-        separator = char;
-    }
-};
-    let operators = display.split(separator);
-    a = +(operators[0]);
-    b = +(operators[1]);
-    switch (separator) {
-        case '+':
-            operation = 'sum';
-            break;
-        case '-':
-            operation = 'sub';
-            break
-        case '×':
-            operation = 'multi';
-            break;
-        case '÷':
-            operation = 'div';
-            break;
-        default:
-    }
-    display = Calc(operation, a, b);
-    outputDisplay();
+    let a;
+    let b;
+    let separator;
+    let operation;
+    let lastSymbolDisplay = display[(display.length - 1)];
+    if (lastSymbolDisplay === '+' || lastSymbolDisplay === '-' || lastSymbolDisplay === '×' || lastSymbolDisplay === '÷') {
+        display = display.slice(0, -1);
+        outputDisplay();
+    } else {
+        for (let char of display) {
+            if (char === '+' || char === '-' || char === '×' || char === '÷') {
+                separator = char;
+            }
+        }
+        ;
+        let operators = display.split(separator);
+        if (operators.length === 3) {
+            a = -(+(operators[1]));
+            b = +(operators[2]);
+        } else {
+            a = +(operators[0]);
+            b = +(operators[1]);
+        }
+        switch (separator) {
+            case '+':
+                operation = 'sum';
+                break;
+            case '-':
+                operation = 'sub';
+                break
+            case '×':
+                operation = 'multi';
+                break;
+            case '÷':
+                operation = 'div';
+                break;
+            default:
+        }
+        display = Calc(operation, a, b);
+        outputDisplay();
+    };
 };
 equal.addEventListener("click", changeSize);
 equal.addEventListener("click", equaling);
-
-
-
